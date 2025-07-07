@@ -11,12 +11,13 @@ import LoanBanner from "@/components/home/LoanBanner";
 import Testimonials2 from "@/components/home/Testimonials2";
 
 export const metadata = {
-  title: "Why Choose Esteem Finance | Trusted Car Loan Experts",
+  title: "Why Choose Esteem Finance for Car Loans in NZ",
   description:
-    "Discover why Esteem Finance stands out in NZ. Offering expert advice, competitive rates, and a customer-centric approach to car financing.",
-  keywords:
-    "Esteem Finance benefits, car loan experts NZ, trusted vehicle financing, customer-focused loans",
-    metadataBase: new URL("https://esteemfinance.co.nz"),
+    "Find out why Esteem Finance leads in car loan solutions in NZ. Hassle-free applications, flexible terms & low rates.",
+  metadataBase: new URL("https://www.esteemfinance.co.nz/why-us"),
+  alternates: {
+    canonical: "https://www.esteemfinance.co.nz/why-us",
+  },
 };
 
 const Page = () => {

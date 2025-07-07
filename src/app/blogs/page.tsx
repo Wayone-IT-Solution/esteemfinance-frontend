@@ -6,14 +6,14 @@ import React from "react";
 
 // ✅ SEO Metadata
 export const metadata = {
-  title: "Car Finance Insights | Esteem Finance Blog",
+  title: "Car Finance Insights NZ – Latest Blogs | Esteem Finance",
   description:
-    "Stay informed with Esteem Finance's blog. Get the latest tips, news, and advice on car financing in New Zealand.",
-  keywords:
-    "car finance blog, vehicle loan tips, Esteem Finance articles, NZ car financing news",
-  metadataBase: new URL("https://esteemfinance.co.nz"),
+    "Looking for car finance in NZ? Learn about approvals, low-interest loans & no-deposit options on Esteem Finance’s blog page.",
+  metadataBase: new URL("https://www.esteemfinance.co.nz/blogs"),
+  alternates: {
+    canonical: "https://www.esteemfinance.co.nz/blogs",
+  },
 };
-
 export default function Page() {
   const data = {
     title: "Our Latest Blogs",

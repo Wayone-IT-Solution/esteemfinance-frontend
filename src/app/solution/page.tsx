@@ -13,13 +13,15 @@ import Testimonials2 from "@/components/home/Testimonials2";
 import LatestBlogs from "@/components/home/LatestBlogs";
 
 // ✅ App Router SEO setup
+
 export const metadata = {
-  title: "Car Financing Solutions | Tailored Loans by Esteem",
+  title: "Car Finance Solutions NZ | Esteem Finance",
   description:
-    "Explore personalized car loan solutions with Esteem Finance. Catering to diverse needs with flexible terms and expert guidance.",
-  keywords:
-    "car loan solutions, personalized vehicle financing, Esteem Finance services, flexible car loans NZ",
-  metadataBase: new URL("https://esteemfinance.co.nz"),
+    "Explore Esteem Finance’s car loan solutions in NZ. Flexible terms, fast approvals, and tailored options to get you behind the wheel faster.",
+  metadataBase: new URL("https://www.esteemfinance.co.nz/solution"),
+  alternates: {
+    canonical: "https://www.esteemfinance.co.nz/solution",
+  },
 };
 
 const Page = () => {

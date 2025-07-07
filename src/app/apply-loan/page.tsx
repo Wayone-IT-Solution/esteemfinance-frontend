@@ -8,13 +8,14 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import { FaRegClock } from "react-icons/fa";
 
 // ✅ App Router metadata export
-export const metadata = {
-  title: "Apply for Car Finance | Quick Approval - Esteem",
+export const msetadata = {
+  title: "Apply Car Loan NZ – Quick Approval | Esteem Finance",
   description:
-    "Start your car loan application with Esteem Finance. Experience a swift, easy process with competitive rates tailored for you.",
-  keywords:
-    "apply car loan NZ, Esteem Finance application, quick car finance, vehicle loan apply",
-  metadataBase: new URL("https://esteemfinance.co.nz"),
+    "Get your dream car faster. Apply online for car loans in NZ with Esteem Finance – flexible repayment plans & quick approvals.",
+  metadataBase: new URL("https://www.esteemfinance.co.nz/apply-loan"),
+  alternates: {
+    canonical: "https://www.esteemfinance.co.nz/apply-loan",
+  },
 };
 
 export default function Page() {
