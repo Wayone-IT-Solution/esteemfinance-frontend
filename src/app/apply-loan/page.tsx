@@ -8,7 +8,7 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import { FaRegClock } from "react-icons/fa";
 
 // ✅ App Router metadata export
-export const msetadata = {
+export const metadata = {
   title: "Apply Car Loan NZ – Quick Approval | Esteem Finance",
   description:
     "Get your dream car faster. Apply online for car loans in NZ with Esteem Finance – flexible repayment plans & quick approvals.",
