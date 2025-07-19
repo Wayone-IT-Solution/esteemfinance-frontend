@@ -1049,7 +1049,7 @@ const MyForm = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 gap-y-10 w-full">
                   <div className="space-y-2">
-                    <label className="text-gray-800 font-medium">License Number (Optional)</label>
+                    <label className="text-gray-800 font-medium">License Number </label>
                     <input
                       type="text"
                       name="licenseNumber"
@@ -1061,7 +1061,7 @@ const MyForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-gray-800 font-medium">License File (Optional)</label>
+                    <label className="text-gray-800 font-medium">License File </label>
                     <div className="relative">
                       <input
                         type="file"
@@ -1073,7 +1073,7 @@ const MyForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-gray-800 font-medium">Photo (Optional)</label>
+                    <label className="text-gray-800 font-medium">Photo </label>
                     <div className="relative">
                       <input
                         type="file"
@@ -1087,7 +1087,7 @@ const MyForm = () => {
 
                   <div className="space-y-2">
                     <label className="text-gray-800 font-medium">
-                      Winz Breakdown (PDF only, Optional)
+                      Winz Breakdown (PDF only)
                     </label>
                     <div className="relative">
                       <input
@@ -1101,7 +1101,7 @@ const MyForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-gray-800 font-medium">Payslip 1 (Optional)</label>
+                    <label className="text-gray-800 font-medium">Payslip 1 </label>
                     <div className="relative">
                       <input
                         type="file"
@@ -1113,7 +1113,7 @@ const MyForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-gray-800 font-medium">Payslip 2 (Optional)</label>
+                    <label className="text-gray-800 font-medium">Payslip 2 </label>
                     <div className="relative">
                       <input
                         type="file"
