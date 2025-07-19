@@ -24,8 +24,6 @@ interface FormData {
   mobile: string;
   email: string;
   preferredContact: string;
-  streetAddress: string;
-  addressLine2: string;
   city: string;
   postalCode: string;
   propertyStatus: string;
@@ -38,7 +36,7 @@ interface FormData {
   jobTitle: string;
   timeAtEmployerMonths: string;
   timeAtEmployerYears: string;
-  timeAtEmployer: string;
+  timeAtEmployer?: string;
   licenseNumber?: string;
   licenseFile?: File | null;
   photo?: File | null;
@@ -53,6 +51,7 @@ const MyForm = () => {
   const [id, setId] = useState("");
   const [otpMail, setOtpMail] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     loanAmount: "10000",
     weeklyPayment: "0",
@@ -68,21 +67,17 @@ const MyForm = () => {
     mobile: "",
     email: "",
     preferredContact: "",
-    streetAddress: "",
-    addressLine2: "",
     city: "",
     postalCode: "",
     propertyStatus: "",
     timeAtPropertyMonths: "",
     timeAtPropertyYears: "",
-    timeAtProperty: "",
     region: "",
     residentialStatus: "",
     employmentStatus: "",
     jobTitle: "",
     timeAtEmployerMonths: "",
     timeAtEmployerYears: "",
-    timeAtEmployer: "",
     licenseNumber: "",
     licenseFile: null,
     photo: null,
@@ -167,8 +162,6 @@ const MyForm = () => {
       mobile: "",
       email: "",
       preferredContact: "",
-      streetAddress: "",
-      addressLine2: "",
       city: "",
       postalCode: "",
       propertyStatus: "",
@@ -219,10 +212,12 @@ const MyForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsDisabled(true);
-
+    setIsLoading(true)
     try {
       // Prepare form data for submission
       const formDataToSubmit = new FormData();
+
+
       Object.entries(formData).forEach(([key, value]) => {
         if (value instanceof File) {
           formDataToSubmit.append(key, value);
@@ -231,7 +226,21 @@ const MyForm = () => {
         }
       });
 
-      const res: any = await Post("/api/loan-application", formDataToSubmit, 15000);
+      // Step 2: Check and log each key
+      let allFieldsFilled = true;
+      for (let key in formData) {
+        const hasKey = formDataToSubmit.has(key);
+        if (!hasKey) {
+          allFieldsFilled = false;
+          break;
+        }
+      }
+
+      if (allFieldsFilled) {
+        formDataToSubmit.append("leadStatus", "Qualified Lead")
+      }
+
+      const res: any = await Post("/api/loan-application", formDataToSubmit, 25000);
       if (res.success) {
         await sendMessage();
         setId(res?.data?.id);
@@ -249,6 +258,7 @@ const MyForm = () => {
       toast.error(error?.message || "An error occurred during submission.");
     } finally {
       setIsDisabled(false);
+      setIsLoading(false)
     }
   };
 
@@ -272,7 +282,14 @@ const MyForm = () => {
   const isStepTwoAndNotAgreed = step === 2 && !agreed;
 
   return (
-    <div className="max-w-7xl m-auto p-4 lg:p-16 font-[poppins]">
+    <div className="max-w-7xl m-auto relative p-4 lg:p-16 font-[poppins]">
+      {/* Overlay spinner */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="flex items-center justify-evenly mb-12">
         <span
           className={`rounded-full p-2 flex items-center justify-center w-10 h-10 ${step === 1 ? "bg-[#1262A1]" : "bg-[#1262A1]/50"
