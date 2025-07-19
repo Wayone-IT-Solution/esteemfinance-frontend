@@ -2,17 +2,13 @@
 import { Post } from "@/utils/api";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaDollarSign, FaRegAddressCard } from "react-icons/fa";
-import { HiOutlineUsers } from "react-icons/hi";
-import { IoCallOutline, IoMailOutline, IoManOutline } from "react-icons/io5";
-import { PiCaretDownThin, PiLineVerticalThin } from "react-icons/pi";
-import { RiContactsBook3Line } from "react-icons/ri";
-import { SlCalender } from "react-icons/sl";
+import { FaDollarSign } from "react-icons/fa";
+import { PiLineVerticalThin } from "react-icons/pi";
 import { toast } from "react-toastify";
 import OtpVerification from "./OtpVerification";
 import Link from "next/link";
-import { countries } from "@/data/data";
 
+// Define FormData interface
 interface FormData {
   loanAmount: string;
   weeklyPayment: string;
@@ -36,7 +32,6 @@ interface FormData {
   timeAtPropertyMonths: string;
   timeAtPropertyYears: string;
   timeAtProperty?: string;
-  monthlyCost: string;
   region: string;
   residentialStatus: string;
   employmentStatus: string;
@@ -44,6 +39,12 @@ interface FormData {
   timeAtEmployerMonths: string;
   timeAtEmployerYears: string;
   timeAtEmployer: string;
+  licenseNumber?: string;
+  licenseFile?: File | null;
+  photo?: File | null;
+  winzBreakdown?: File | null;
+  payslip1?: File | null;
+  payslip2?: File | null;
 }
 
 const MyForm = () => {
@@ -51,12 +52,11 @@ const MyForm = () => {
   const [agreed, setAgreed] = useState(false);
   const [id, setId] = useState("");
   const [otpMail, setOtpMail] = useState("");
-  const [setOtpLocal, setSetOtpLocal] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
-  const [formData, setFormData] = useState<any>({
-    loanAmount: 10000,
-    weeklyPayment: 0,
-    termYears: 1,
+  const [formData, setFormData] = useState<FormData>({
+    loanAmount: "10000",
+    weeklyPayment: "0",
+    termYears: "1",
     title: "",
     firstName: "",
     lastName: "",
@@ -76,7 +76,6 @@ const MyForm = () => {
     timeAtPropertyMonths: "",
     timeAtPropertyYears: "",
     timeAtProperty: "",
-    monthlyCost: "",
     region: "",
     residentialStatus: "",
     employmentStatus: "",
@@ -84,98 +83,115 @@ const MyForm = () => {
     timeAtEmployerMonths: "",
     timeAtEmployerYears: "",
     timeAtEmployer: "",
+    licenseNumber: "",
+    licenseFile: null,
+    photo: null,
+    winzBreakdown: null,
+    payslip1: null,
+    payslip2: null,
   });
 
-  const [errors, setErrors] = useState<{ [key in keyof FormData]?: string }>(
-    {}
-  );
+  const [errors, setErrors] = useState<Partial<FormData>>({});
 
   // Handle input changes
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+    if (type === "file") {
+      const file = (e.target as HTMLInputElement).files?.[0] || null;
+      setFormData((prev) => ({ ...prev, [name]: file }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const validate1 = (formData: FormData): boolean => {
-    const newErrors: { [key in keyof FormData]?: string } = {};
+  // Validation for Step 1
+  const validateStep1 = (data: FormData): boolean => {
+    const newErrors: Partial<FormData> = {};
 
-    // Basic validation for demonstration
-    if (!formData.firstName) newErrors.firstName = "First name is required";
-    if (!formData.lastName) newErrors.lastName = "Last name is required";
-    // if (!formData.countryCode)
-    //   newErrors.countryCode = "CountryCode is required";
-    if (!formData.mobile) {
+    if (!data.firstName) newErrors.firstName = "First name is required";
+    if (!data.lastName) newErrors.lastName = "Last name is required";
+    if (!data.mobile) {
       newErrors.mobile = "Mobile is required";
-    } else if (!/^\d{10}$/.test(formData.mobile)) {
+    } else if (!/^\d{10}$/.test(data.mobile)) {
       newErrors.mobile = "Mobile number must be exactly 10 digits";
     }
-    if (!formData.email) {
+    if (!data.email) {
       newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    setErrors(newErrors);
-    // If there are errors, return false and log errors
-    if (Object.keys(newErrors).length > 0) {
-      console.log(newErrors); // Log the errors to the console or display them to the user
-      return false;
-    }
 
-    // If no errors, return true (form is valid)
-    return true;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const validate2 = (formData: FormData) => {
-    const newErrors: { [key in keyof FormData]?: string } = {};
+  // Validation for Step 2
+  const validateStep2 = (data: FormData): boolean => {
+    const newErrors: Partial<FormData> = {};
 
-    // if (!formData.streetAddress)
-    //   newErrors.streetAddress = "Street Address is required";
-    // if (!formData.addressLine2)
-    //   newErrors.addressLine2 = "Address Line 2 is required";
-    if (!formData.city) newErrors.city = "City is required";
-    if (!formData.postalCode) newErrors.postalCode = "Postal Code is required";
-    if (!formData.propertyStatus)
+    if (!data.city) newErrors.city = "City is required";
+    if (!data.postalCode) newErrors.postalCode = "Postal Code is required";
+    if (!data.propertyStatus)
       newErrors.propertyStatus = "Property Status is required";
-    if (!formData.timeAtPropertyMonths || !formData.timeAtPropertyYears)
+    if (!data.timeAtPropertyMonths || !data.timeAtPropertyYears)
       newErrors.timeAtProperty = "Time at Property is required";
-
-    if (!formData.monthlyCost)
-      newErrors.monthlyCost = "Monthly Cost is required";
-    if (!formData.region) newErrors.region = "Region is required";
-    if (!formData.residentialStatus)
+    if (!data.region) newErrors.region = "Region is required";
+    if (!data.residentialStatus)
       newErrors.residentialStatus = "Residential Status is required";
-    if (!formData.employmentStatus)
+    if (!data.employmentStatus)
       newErrors.employmentStatus = "Employment Status is required";
-    if (!formData.jobTitle) newErrors.jobTitle = "Job Title is required";
-    if (!formData.timeAtEmployerYears || !formData.timeAtEmployerMonths)
+    if (!data.jobTitle) newErrors.jobTitle = "Job Title is required";
+    if (!data.timeAtEmployerYears || !data.timeAtEmployerMonths)
       newErrors.timeAtEmployer = "Time at Employer is required";
 
     setErrors(newErrors);
-
-    // If there are errors, return false and log errors
-    if (Object.keys(newErrors).length > 0) {
-      console.log(newErrors, formData); // Log the errors to the console or display them to the user
-      return false;
-    }
-    return true;
+    return Object.keys(newErrors).length === 0;
   };
 
-  const resetFormData = (formData: any) => {
-    const data: any = { loanAmount: 10000, weeklyPayment: 0, termYears: 1 };
-    setFormData(
-      Object.fromEntries(
-        Object.keys(formData).map((key) =>
-          ["loanAmount", "weeklyPayment", "termYears"].includes(key)
-            ? [key, data[key]]
-            : [key, ""]
-        )
-      )
-    );
+  // Reset form data
+  const resetFormData = () => {
+    setFormData({
+      loanAmount: "10000",
+      weeklyPayment: "0",
+      termYears: "1",
+      title: "",
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      maritalStatus: "",
+      noOfDependents: "",
+      drivingLicenceType: "",
+      countryCode: "+64",
+      mobile: "",
+      email: "",
+      preferredContact: "",
+      streetAddress: "",
+      addressLine2: "",
+      city: "",
+      postalCode: "",
+      propertyStatus: "",
+      timeAtPropertyMonths: "",
+      timeAtPropertyYears: "",
+      timeAtProperty: "",
+      region: "",
+      residentialStatus: "",
+      employmentStatus: "",
+      jobTitle: "",
+      timeAtEmployerMonths: "",
+      timeAtEmployerYears: "",
+      timeAtEmployer: "",
+      licenseNumber: "",
+      licenseFile: null,
+      photo: null,
+      winzBreakdown: null,
+      payslip1: null,
+      payslip2: null,
+    });
   };
 
+  // Send message
   const sendMessage = async () => {
     try {
       const accessToken =
@@ -195,89 +211,89 @@ const MyForm = () => {
         body: JSON.stringify(data),
       });
     } catch (error) {
-      console.log("Send message: ", error);
+      console.error("Send message error: ", error);
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsDisabled(true);
 
     try {
-      const isValid = validate1(formData);
-      const isValid2 = validate2(formData);
-      if (isValid && isValid2) {
-        setIsDisabled(true);
-        const res: any = await Post("/api/loan-application", formData, 10000);
-        if (res.success) {
-          await sendMessage();
-          setId(res?.data?.id);
-          setOtpMail(res?.data?.email);
-          setAgreed(false);
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth", // Smooth scrolling effect
-          });
-          setStep(3);
-          setIsDisabled(false);
-          toast.success(res?.message);
-          resetFormData(formData);
+      // Prepare form data for submission
+      const formDataToSubmit = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value instanceof File) {
+          formDataToSubmit.append(key, value);
+        } else if (value !== null && value !== "") {
+          formDataToSubmit.append(key, value);
         }
+      });
+
+      const res: any = await Post("/api/loan-application", formDataToSubmit, 15000);
+      if (res.success) {
+        await sendMessage();
+        setId(res?.data?.id);
+        setOtpMail(res?.data?.email);
+        setAgreed(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setStep(3);
+        toast.success(res?.message);
+        resetFormData();
+      } else {
+        toast.error(res?.message || "Submission failed. Please try again.");
       }
     } catch (error: any) {
-      setIsDisabled(false);
       console.error("Error submitting form:", error);
-      // toast.error(error?.message);
-      toast.error(error?.details);
+      toast.error(error?.message || "An error occurred during submission.");
+    } finally {
+      setIsDisabled(false);
     }
   };
 
-  const handelForm = (e: React.FormEvent<Element>) => {
-    if (step == 1) {
-      console.log(validate1(formData));
-      if (validate1(formData)) {
+  // Handle form navigation and submission
+  const handleForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (step === 1) {
+      if (validateStep1(formData)) {
         setStep(2);
       }
     } else if (step === 2) {
-      if (validate2(formData)) {
-        handleSubmit(e);
+      if (validateStep2(formData) && agreed) {
+        await handleSubmit(e);
+      } else if (!agreed) {
+        toast.error("Please agree to the Terms and Conditions.");
       }
     }
   };
 
   const isStepTwoAndNotAgreed = step === 2 && !agreed;
-  const isButtonDisabled = isStepTwoAndNotAgreed;
 
   return (
     <div className="max-w-7xl m-auto p-4 lg:p-16 font-[poppins]">
-      {" "}
       <div className="flex items-center justify-evenly mb-12">
-        {" "}
         <span
-          className={`rounded-full p-2 flex items-center justify-center w-10 h-10 ${
-            step === 1 ? "bg-[#1262A1]" : "bg-[#1262A1]/50"
-          }`}
-        >
-          {" "}
-          1{" "}
-        </span>{" "}
-        <span className="w-5/6 h-2 bg-gray-300 rounded-full relative">
-          {" "}
-          <span
-            className={`h-2 bg-[#1262A1] rounded-full absolute ${
-              step === 1 ? "w-1/2" : "w-full"
+          className={`rounded-full p-2 flex items-center justify-center w-10 h-10 ${step === 1 ? "bg-[#1262A1]" : "bg-[#1262A1]/50"
             }`}
-          ></span>{" "}
-        </span>{" "}
-        <span
-          className={`rounded-full p-2 flex items-center justify-center w-10 h-10 ${
-            step === 2 ? "bg-[#1262A1]" : "bg-[#1262A1]/50"
-          }`}
         >
-          {" "}
-          2{" "}
-        </span>{" "}
+          1
+        </span>
+        <span className="w-5/6 h-2 bg-gray-300 rounded-full relative">
+          <span
+            className={`h-2 bg-[#1262A1] rounded-full absolute ${step === 1 ? "w-1/2" : "w-full"
+              }`}
+          ></span>
+        </span>
+        <span
+          className={`rounded-full p-2 flex items-center justify-center w-10 h-10 ${step === 2 ? "bg-[#1262A1]" : "bg-[#1262A1]/50"
+            }`}
+        >
+          2
+        </span>
       </div>
-      <div className=" mb-16">
+      <div className="mb-16">
         {step === 1 && (
           <div className="">
             <label
@@ -317,9 +333,8 @@ const MyForm = () => {
              [&::-moz-range-thumb]:rounded-full 
              [&::-moz-range-thumb]:cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #1262A1 ${
-                      ((formData?.loanAmount - 10000) / (100000 - 10000)) * 100
-                    }%, #DDE5EB 0%)`,
+                    background: `linear-gradient(to right, #1262A1 ${((Number(formData?.loanAmount) - 10000) / (100000 - 10000)) * 100
+                      }%, #DDE5EB 0%)`,
                   }}
                 />
               </div>
@@ -331,7 +346,6 @@ const MyForm = () => {
                     I want to pay
                   </label>
                   <span className="rounded-full bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 p-[1.3px] px-3">
-                    {/* $ {Math.min(Math.max(formData?.weeklyPayment || 0, 0), formData?.loanAmount)} */}
                     $ {formData?.weeklyPayment} / week
                   </span>
                 </div>
@@ -339,14 +353,9 @@ const MyForm = () => {
                   type="range"
                   name="weeklyPayment"
                   min="0"
-                  max={1000}
-                  // max={Math.min(formData?.loanAmount)} // Max is either loanAmount or 1000
+                  max="1000"
                   step="50"
                   value={formData?.weeklyPayment}
-                  // value={Math.min(
-                  //   formData?.weeklyPayment,
-                  //   formData?.loanAmount
-                  // )} // Ensure it doesn't exceed loanAmount
                   onChange={handleChange}
                   className="w-full rounded-full h-2 bg-[#DDE5EB] appearance-none  [&::-webkit-slider-thumb]:appearance-none 
              [&::-webkit-slider-thumb]:w-4 
@@ -360,14 +369,11 @@ const MyForm = () => {
              [&::-moz-range-thumb]:rounded-full 
              [&::-moz-range-thumb]:cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #1262A1 ${
-                      (formData?.weeklyPayment - 0) / 10
-                    }%, #DDE5EB 0%)`,
+                    background: `linear-gradient(to right, #1262A1 ${(Number(formData?.weeklyPayment) / 1000) * 100
+                      }%, #DDE5EB 0%)`,
                   }}
                 />
               </div>
-              {/* // (Math.min(formData?.loanAmount) - 0)) *
-                    // 100 */}
 
               {/* Term Slider */}
               <div className="w-full">
@@ -397,9 +403,8 @@ const MyForm = () => {
              [&::-moz-range-thumb]:rounded-full 
              [&::-moz-range-thumb]:cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #1262A1 ${
-                      ((formData?.termYears - 1) / (5 - 1)) * 100
-                    }%, #DDE5EB 0%)`,
+                    background: `linear-gradient(to right, #1262A1 ${((Number(formData?.termYears) - 1) / (5 - 1)) * 100
+                      }%, #DDE5EB 0%)`,
                   }}
                 />
               </div>
@@ -433,7 +438,6 @@ const MyForm = () => {
                   <option value="Miss">Miss</option>
                   <option value="Ms">Ms</option>
                 </select>
-
                 {errors.title && (
                   <p className="text-red-500 text-sm">{errors.title}</p>
                 )}
@@ -497,15 +501,13 @@ const MyForm = () => {
                     }}
                     className="p-3 w-full rounded-full outline-none pl-16 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
                   />
-
                   <Image
-                    src={"/assets/date.png"}
+                    src="/assets/date.png"
                     alt=""
                     className="absolute left-4 text-xl top-1/2 transform -translate-y-1/2 border text-[#1262A1]"
                     width="20"
                     height="20"
                   />
-
                   <PiLineVerticalThin className="absolute text-[3.6rem] opacity-40 font-thin border-0 left-4 top-1/2 transform -translate-y-1/2 text-[#1262A1]" />
                 </div>
               </div>
@@ -522,9 +524,9 @@ const MyForm = () => {
                     className="p-3 w-full rounded-full outline-none px-16 text-[#1262A1] bg-transparent appearance-none"
                     style={{
                       height: "3rem",
-                      WebkitAppearance: "none", // Safari fix
-                      MozAppearance: "none", // Firefox fix
-                      appearance: "none", // General fix
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      appearance: "none",
                     }}
                   >
                     <option value="">Select Marital Status</option>
@@ -533,7 +535,6 @@ const MyForm = () => {
                     <option value="Divorced">Divorced</option>
                     <option value="Partner">Partner</option>
                   </select>
-
                   <Image
                     src="/assets/users.png"
                     alt="user icon"
@@ -541,7 +542,6 @@ const MyForm = () => {
                     height={24}
                     className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1262A1]"
                   />
-
                   <PiLineVerticalThin className="absolute text-[3.6rem] opacity-40 font-thin left-5 top-1/2 transform -translate-y-1/2 text-[#1262A1]" />
                 </div>
               </div>
@@ -555,14 +555,12 @@ const MyForm = () => {
                     value={formData.noOfDependents}
                     onChange={handleChange}
                     placeholder="Enter dependencies"
-                    className="p-3 w-full rounded-full placeholder:text-[#1262A1] outline-none px-16 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 appearance-none"
+                    className="p-3 w-full rounded-full placeholder:text-[#1262A1] outline-none px-16 bg-[#1262A11A] text-[#1262A1] border border-[#126218]/30"
                     style={{
-                      MozAppearance: "textfield", // Firefox: removes spinner
+                      MozAppearance: "textfield",
                     }}
-                    // For Safari & Chrome: removes spinner arrows
                     onWheel={(e) => e.currentTarget.blur()}
                   />
-
                   <Image
                     src="/assets/human.png"
                     alt="dependents icon"
@@ -570,7 +568,6 @@ const MyForm = () => {
                     height={16}
                     className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1262A1]"
                   />
-
                   <PiLineVerticalThin className="absolute text-[3.6rem] opacity-40 font-thin left-5 top-1/2 transform -translate-y-1/2 text-[#1262A1]" />
                 </div>
               </div>
@@ -587,9 +584,9 @@ const MyForm = () => {
                     onChange={handleChange}
                     style={{
                       height: "3rem",
-                      WebkitAppearance: "none", // for Safari
-                      MozAppearance: "none", // for Firefox
-                      appearance: "none", // general
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      appearance: "none",
                     }}
                     className="p-3 w-full rounded-full outline-none px-16 bg-transparent text-[#1262A1] cursor-pointer"
                   >
@@ -597,12 +594,10 @@ const MyForm = () => {
                     <option value="Restricted">Restricted</option>
                     <option value="Full Licence">Full Licence</option>
                     <option value="Learner">Learner</option>
-                    {/* <option value="No Licence">No Licence</option> */}
                     <option value="International">International</option>
-                    {/* <option value="Other">Other</option> */}
                   </select>
                   <Image
-                    src={"/assets/dl.png"}
+                    src="/assets/dl.png"
                     alt=""
                     className="absolute text-2xl left-4 top-1/2 transform -translate-y-1/2 text-[#1262A1]"
                     width="20"
@@ -615,12 +610,10 @@ const MyForm = () => {
                 <label className="text-gray-800 font-medium">
                   Mobile Number:
                 </label>
-
                 <div className="relative flex items-center bg-[#1262A11A] border border-[#1262A1]/30 rounded-full overflow-hidden px-4">
-                  {/* Country code select */}
                   <select
                     name="countryCode"
-                    defaultValue={"+64"}
+                    value={formData.countryCode}
                     onChange={handleChange}
                     className="bg-transparent w-12 text-[#1262A1] border-r border-[#1262A1]/30 outline-none py-3 pr-3 appearance-none"
                     style={{
@@ -630,26 +623,22 @@ const MyForm = () => {
                     }}
                   >
                     <option value="+64">+64</option>
-                    {/* {countries.map((country, index) => (
-                      <option key={index} value={country.code}>
-                        {country.code}
-                      </option>
-                    ))} */}
                   </select>
-
-                  {/* Mobile input */}
                   <input
                     type="number"
                     name="mobile"
                     value={formData.mobile}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      const input = e.target.value;
+                      if (/^\d{0,10}$/.test(input)) {
+                        handleChange(e);
+                      }
+                    }}
                     maxLength={10}
                     placeholder="Enter mobile number"
                     className="flex-1 py-3 pl-4 pr-2 placeholder:text-[#1262A1] bg-transparent text-[#1262A1] outline-none"
                   />
                 </div>
-
-                {/* Validation Errors */}
                 {errors.countryCode && (
                   <p className="text-red-500 text-sm">{errors.countryCode}</p>
                 )}
@@ -669,13 +658,12 @@ const MyForm = () => {
                     className="py-3 w-full placeholder:text-[#1262A1] rounded-full outline-none pl-16 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
                   />
                   <Image
-                    src={"/assets/email.png"}
+                    src="/assets/email.png"
                     alt=""
                     className="absolute text-2xl left-4 top-1/2 transform -translate-y-1/2 border text-[#1262A1]"
                     width="20"
                     height="20"
                   />
-
                   <PiLineVerticalThin className="absolute text-[3.6rem] opacity-40 font-thin border-0 left-5 top-1/2 transform -translate-y-1/2 text-[#1262A1]" />
                 </div>
                 {errors.email && (
@@ -686,9 +674,7 @@ const MyForm = () => {
                 <label className="text-gray-800 font-medium">
                   Preferred Contact Method:
                 </label>
-
                 <div className="relative overflow-hidden rounded-full bg-[#1262A11A] border border-[#1262A1]/30 text-[#1262A1]">
-                  {/* Icon */}
                   <Image
                     src="/assets/contacti.png"
                     alt="contact"
@@ -696,11 +682,7 @@ const MyForm = () => {
                     height={20}
                     className="absolute left-4 top-1/2 -translate-y-1/2 z-10"
                   />
-
-                  {/* Vertical line */}
                   <PiLineVerticalThin className="absolute text-[3.6rem] opacity-40 font-thin border-0 left-5 top-1/2 transform -translate-y-1/2 text-[#1262A1]" />
-
-                  {/* Select field */}
                   <select
                     name="preferredContact"
                     value={formData.preferredContact}
@@ -717,8 +699,6 @@ const MyForm = () => {
                     <option value="SMS">SMS</option>
                     <option value="Email">Email</option>
                   </select>
-
-                  {/* Optional custom dropdown arrow */}
                   <svg
                     className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#1262A1]"
                     xmlns="http://www.w3.org/2000/svg"
@@ -748,40 +728,6 @@ const MyForm = () => {
               Address...
             </label>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 gap-y-10 w-full mb-10">
-              {/* <div className="space-y-2">
-                <label className="text-gray-800 font-medium">
-                  Street Address
-                </label>
-                <input
-                  type="text"
-                  name="streetAddress"
-                  placeholder="Enter street address"
-                  value={formData.streetAddress}
-                  onChange={handleChange}
-                  className="p-3 w-full rounded-full placeholder:text-[#1262A1] outline-none px-2 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
-                />
-                {errors.streetAddress && (
-                  <p className="text-red-500 text-sm">{errors.streetAddress}</p>
-                )}
-              </div> */}
-
-              {/* <div className="space-y-2">
-                <label className="text-gray-800 font-medium">
-                  Address Line 2
-                </label>
-                <input
-                  type="text"
-                  name="addressLine2"
-                  placeholder="Apartment, suite, etc."
-                  value={formData.addressLine2}
-                  onChange={handleChange}
-                  className="p-3 w-full rounded-full placeholder:text-[#1262A1] outline-none px-2 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
-                />
-                {errors.addressLine2 && (
-                  <p className="text-red-500 text-sm">{errors.addressLine2}</p>
-                )}
-              </div> */}
-
               <div className="space-y-2">
                 <label className="text-gray-800 font-medium">City</label>
                 <input
@@ -868,7 +814,6 @@ const MyForm = () => {
                       </option>
                     ))}
                   </select>
-
                   <select
                     name="timeAtPropertyYears"
                     value={formData.timeAtPropertyYears}
@@ -892,27 +837,6 @@ const MyForm = () => {
                   <p className="text-red-500 text-sm">
                     {errors.timeAtProperty}
                   </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-gray-800 font-medium">
-                  Monthly Cost
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    name="monthlyCost"
-                    value={formData.monthlyCost}
-                    onChange={handleChange}
-                    placeholder="Enter a monthly cost"
-                    className="w-full h-12 rounded-full outline-none placeholder:text-[#1262A1] pl-16 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
-                  />
-                  <FaDollarSign className="absolute left-5 top-1/2 -translate-y-1/2 text-[#1262A1] text-lg" />
-                  <PiLineVerticalThin className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1262A1] text-[3rem] opacity-40" />
-                </div>
-                {errors.monthlyCost && (
-                  <p className="text-red-500 text-sm">{errors.monthlyCost}</p>
                 )}
               </div>
 
@@ -948,8 +872,6 @@ const MyForm = () => {
                     <option value="Non NZ Resident">Non NZ Resident</option>
                     <option value="Work Visa">Work Visa</option>
                   </select>
-
-                  {/* Custom dropdown arrow */}
                   <svg
                     className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-[#1262A1] w-4 h-4"
                     xmlns="http://www.w3.org/2000/svg"
@@ -965,7 +887,6 @@ const MyForm = () => {
                     />
                   </svg>
                 </div>
-
                 {errors.residentialStatus && (
                   <p className="text-red-500 text-sm">
                     {errors.residentialStatus}
@@ -982,7 +903,6 @@ const MyForm = () => {
                 Employment
               </label>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 gap-y-10 w-full">
-                {/* Employment Status */}
                 <div className="space-y-2">
                   <label className="text-gray-800 font-medium">
                     Employment Status
@@ -1001,16 +921,10 @@ const MyForm = () => {
                       <option value="Employed Part-Time">
                         Employed Part-Time
                       </option>
-                      {/* <option value="Contractor">Contractor</option> */}
                       <option value="Self Employed">Self Employed</option>
-                      {/* <option value="Unemployed">Unemployed</option> */}
                       <option value="Disabled">Disabled</option>
                       <option value="Casual">Casual</option>
-                      {/* <option value="Retired">Retired</option> */}
                       <option value="Super-Annuation">Super Annuation</option>
-                      {/* <option value="WINZ">WINZ</option> */}
-                      {/* <option value="ACC">ACC</option> */}
-                      {/* <option value="WINZ & ACC">WINZ & ACC</option> */}
                       <option value="Studylink">Studylink</option>
                     </select>
                     <svg
@@ -1035,7 +949,8 @@ const MyForm = () => {
                   )}
                 </div>
 
-                {/* Job Title */}
+
+
                 <div className="space-y-2">
                   <label className="text-gray-800 font-medium">Job Title</label>
                   <input
@@ -1051,7 +966,6 @@ const MyForm = () => {
                   )}
                 </div>
 
-                {/* Time at Employment */}
                 <div className="space-y-2">
                   <label className="text-gray-800 font-medium">
                     Time at Employment
@@ -1118,30 +1032,116 @@ const MyForm = () => {
                       </svg>
                     </div>
                   </div>
-                  {errors.timeAtProperty && (
+                  {errors.timeAtEmployer && (
                     <p className="text-red-500 text-sm">
-                      {errors.timeAtProperty}
+                      {errors.timeAtEmployer}
                     </p>
                   )}
+                </div>
+              </div>
+
+              <div>
+                <label
+                  className="text-2xl mb-6 mt-6 inline-block lg:col-span-3 text-gray-800 font-semibold"
+                >
+                  Documents
+                </label>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 gap-y-10 w-full">
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">License Number (Optional)</label>
+                    <input
+                      type="text"
+                      name="licenseNumber"
+                      value={formData.licenseNumber}
+                      onChange={handleChange}
+                      placeholder="Enter license number"
+                      className="w-full h-12 rounded-full outline-none placeholder:text-[#1262A1] pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">License File (Optional)</label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        name="licenseFile"
+                        onChange={handleChange}
+                        className="w-full h-12 rounded-full outline-none pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#1262A1] file:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">Photo (Optional)</label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        name="photo"
+                        accept="image/*"
+                        onChange={handleChange}
+                        className="w-full h-12 rounded-full outline-none pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#1262A1] file:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">
+                      Winz Breakdown (PDF only, Optional)
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        name="winzBreakdown"
+                        accept="application/pdf"
+                        onChange={handleChange}
+                        className="w-full h-12 rounded-full outline-none pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#1262A1] file:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">Payslip 1 (Optional)</label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        name="payslip1"
+                        onChange={handleChange}
+                        className="w-full h-12 rounded-full outline-none pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#1262A1] file:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-800 font-medium">Payslip 2 (Optional)</label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        name="payslip2"
+                        onChange={handleChange}
+                        className="w-full h-12 rounded-full outline-none pl-5 pt-1 pr-4 bg-[#1262A11A] text-[#1262A1] border border-[#1262A1]/30 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#1262A1] file:text-white"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
-        {step == 3 && (
-          <div className="fixed inset-0 flex items-center justify-center z-[5000]  bg-black bg-opacity-50">
+        {step === 3 && (
+          <div className="fixed inset-0 flex items-center justify-center z-[5000] bg-black bg-opacity-50">
             <div className="bg-white text-[#1262A1] p-6 rounded-lg text-center mt-[7.5rem]">
               <OtpVerification
                 id={id}
                 email={otpMail}
-                setOtpLocal={setOtpLocal}
+                setOtpLocal={() => { }} // Placeholder, update as needed
                 setIsModalVisible={setStep}
                 handleGoBack={() => setStep(1)}
               />
             </div>
           </div>
         )}
-        {step == 4 && (
+        {step === 4 && (
           <div className="fixed inset-0 flex items-center justify-center z-[5000] bg-black bg-opacity-50">
             <div className="bg-white text-[#1262A1] p-6 rounded-lg text-center">
               <h2 className="text-xl font-bold">Submission Successful!</h2>
@@ -1168,7 +1168,7 @@ const MyForm = () => {
               <label htmlFor="agree" className="text-sm text-gray-800">
                 I agree to the{" "}
                 <Link
-                  target="blank"
+                  target="_blank"
                   href="/terms-and-conditions"
                   className="text-blue-600 underline"
                 >
@@ -1176,7 +1176,7 @@ const MyForm = () => {
                 </Link>{" "}
                 and{" "}
                 <Link
-                  target="blank"
+                  target="_blank"
                   href="/privacy-policy"
                   className="text-blue-600 underline"
                 >
@@ -1188,47 +1188,32 @@ const MyForm = () => {
               <label htmlFor="agree" className="text-xs font-bold text-gray-800">
                 Note:{" "}
                 <span className="text-gray-600 font-normal text-xs">
-                  You will receive an OTP in your email to proceed with this
-                  form.{" "}
+                  You will receive an OTP in your email to proceed with this form.
                 </span>
               </label>
             </div>
           </>
         )}
-      </div>
-      <div className="w-full text-center space-x-10 lg:space-x-4  ">
-        <button
-          type="button"
-          onClick={() => setStep(1)}
-          disabled={step === 1}
-          className={`bg-gray-50 border w-1/3 lg:w-1/5 m-auto text-gray-500 p-3 rounded-full hover:bg-gray-100 ${
-            step === 1 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Previous
-        </button>
-        {isDisabled ? (
+        <div className="w-full text-center space-x-10 lg:space-x-4">
           <button
             type="button"
-            disabled={isDisabled}
-            className={`bg-gray-50 border w-1/3 lg:w-1/5 m-auto text-gray-500 p-3 rounded-full hover:bg-gray-100 ${
-              step === 3 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            onClick={() => setStep(1)}
+            disabled={step === 1 || isDisabled}
+            className={`bg-gray-50 border w-1/3 lg:w-1/5 m-auto text-gray-500 p-3 rounded-full hover:bg-gray-100 ${step === 1 || isDisabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           >
-            Sending OTP...
+            Previous
           </button>
-        ) : (
           <button
             type="button"
-            onClick={handelForm}
-            disabled={isButtonDisabled}
-            className={`bg-[#1262A1] w-1/3 lg:w-1/5 m-auto text-white p-3 rounded-full hover:bg-[#1262A1]/90 ${
-              isStepTwoAndNotAgreed ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            onClick={handleForm}
+            disabled={isDisabled || isStepTwoAndNotAgreed}
+            className={`bg-[#1262A1] w-1/3 lg:w-1/5 m-auto text-white p-3 rounded-full hover:bg-[#1262A1]/90 ${isDisabled || isStepTwoAndNotAgreed ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           >
-            {step === 1 ? "Next" : "Submit"}
+            {isDisabled ? "Sending OTP..." : step === 1 ? "Next" : "Submit"}
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
