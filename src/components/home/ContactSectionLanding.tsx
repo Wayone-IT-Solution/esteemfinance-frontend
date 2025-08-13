@@ -73,9 +73,7 @@ const ContactSectionLanding = () => {
             Let’s Connect
           </h2>
           <p className="text-gray-800 text-xs tracking-wide font-thin font-[cabin] mb-6">
-            We’d love to hear from you! Whether you have a question, need more
-            information about our services, or want to discuss how we can work
-            together,
+            Need help applying for vehicle finance or exploring the right pre-owned car finance options? Our team is ready to assist you.
           </p>
           <div className="text-gray-800 flex lg:gap-4 mb-16 font-medium font-[alexandria]">
             <Link href={"tel:0210371229"}>
@@ -100,13 +98,13 @@ const ContactSectionLanding = () => {
           <div className="text-gray-50 flex items-center justify-start gap-4  mb-6 ">
             <Image
               src={`/assets/contactlanding.svg`}
-              alt={"image"}
+              alt={"Contact us for car loan"}
               width={800}
               height={800}
               className="object-fill w-full h-full scale-110"
             />
           </div>
-         
+
         </div>
         <div className=" pt-10 lg:px-0 lg:py-12 md:col-span-3 h-[70vh] lg:h-auto relative">
           <div className="w-full h-full overflow-hidden pr-6">
@@ -217,7 +215,7 @@ const ContactSectionLanding = () => {
                     </label>
                   </div>
 
-                  <div  className="flex item-center  ">
+                  <div className="flex item-center  ">
                     <input
                       type="checkbox"
                       id="otherLoan"

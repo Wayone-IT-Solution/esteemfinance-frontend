@@ -7,30 +7,37 @@ export default function WhyEsteeemLanding() {
   const content = [
     {
       description:
-        "Leveraging technology, intellectual resources and partnerships, Esteem can bring most cost-effective car finance solutions to customers.",
+        "We offer affordable auto financing options by leveraging data, technology, and partnerships.",
+      alt: "Affordable car loan"
     },
     {
       description:
-        "Esteem's subject matter experts analyze and recommend unbiased finance solution pertinent to the needs and wants of customers by providing bottom line statistics.",
+        "As automotive finance experts, we identify the right funding for you and provide independent advice throughout the process.",
+      alt: "Automotive car loan"
     },
     {
-      description: "Esteem can provide wider vendor options to choose from.",
+      description:
+        "Choose from hundreds of lenders and dealers to get pre-owned vehicle finance, new vehicle loans, or refinance your existing auto credit.",
+      alt: "Pre-owned car loan"
     },
     {
-      description: "Fastest turn around time for finance process.",
+      description:
+        "We provide one of the fastest turnaround times for finance approval in New Zealand.",
+      alt: "Get approval for car loan"
     },
   ];
+
   return (
     <div className="max-w-7xl m-auto p-4 lg:p-16">
       <div className="w-full m-auto  text-center mb-8">
         <h2 className="text-gray-900 text-2xl font-[alexandria] font-semibold mb-2">
-          Why Esteem?
+          Why Choose Us for Car Loan?
         </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         <div className="lg:col-span-2">
           <Image
-            alt=""
+            alt="Why choose us for car loan"
             src={"/assets/whyesteem.svg"}
             width={100}
             height={100}
@@ -44,7 +51,7 @@ export default function WhyEsteeemLanding() {
               className="flex items-center justify-start text-gray-800 text-sm gap-2 mb-4 lg:mb-8"
             >
               <Image
-                alt=""
+                alt={data?.alt}
                 src={"/assets/whycheck.svg"}
                 width={100}
                 height={100}

@@ -13,29 +13,28 @@ export default function LandingHeroSection() {
       <Image
         priority
         src="/assets/esteemlandingtopbg.png"
-        alt="Landing Background"
+        alt="Car Loan"
         fill
         className="object-cover -z-10"
       />
 
       <div className="absolute z-40 w-full px-4 lg:w-3/5 text-center left-1/2 top-1/2 lg:top-[40%] -translate-x-1/2 -translate-y-1/2">
         <h1 className="font-[alexandria] text-white text-2xl lg:text-5xl font-bold mb-4">
-          Drive Your Dream <br /> Car with Esteem Finance
+          Drive Your Dream Car with the Best Car Loan in New Zealand
         </h1>
         <p className="font-[cabin] text-white text-base mb-4 lg:mb-8">
-          A hassle-free and smooth process designed to help you get the car you want
-        </p>
+          Experience a quick, secure, and stress-free process designed to help you get the car you want with the best car loan, vehicle finance, and auto loan options available across New Zealand. Whether you’re buying a pre-owned car, we make the journey smooth from application to approval.        </p>
         <div className="flex justify-center items-center gap-2 lg:gap-4">
           <Link
             href="/apply-loan"
             className="bg-white text-[#1262A1] font-semibold hover:bg-gray-200/80 transition-colors ease-in-out flex items-center font-[poppins] px-4 lg:px-6 text-xs lg:text-sm h-12 lg:h-14 rounded-lg"
           >
-            Get Your Car Finance Today
+            Get Your Car Loan Today
           </Link>
           <button className="rounded-lg p-2 px-4 h-12 lg:h-14 text-2xl bg-white text-[#1262A1] border">
             <IoIosArrowForward />
           </button>
-          <button className="text-white text-xs lg:text-base h-12 lg:h-14 font-semibold font-[poppins]">
+          <button className="text-white hidden text-xs lg:text-base h-12 lg:h-14 font-semibold font-[poppins]">
             Learn More
           </button>
         </div>
@@ -46,7 +45,7 @@ export default function LandingHeroSection() {
         <Image
           priority
           src="/assets/esteemwave.png"
-          alt="Wave Decoration"
+          alt="Best car loan services in New Zealand"
           width={1920}
           height={300}
           className="w-full h-auto"
@@ -57,7 +56,7 @@ export default function LandingHeroSection() {
         <Image
           priority
           src="/assets/esteemlandingtop.png"
-          alt="Wave Overlay"
+          alt="Best car loan services in New Zealand"
           width={1920}
           height={300}
           className="w-3/5 mx-auto h-auto"

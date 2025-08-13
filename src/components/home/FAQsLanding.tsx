@@ -22,34 +22,38 @@ export default function FAQLanding() {
   };
   const content = [
     {
-      question: "How Often Should I Have My Plumbing Inspected?",
+      question: "How do I apply for finance in New Zealand?",
       answer:
-        "Leveraging technology, intellectual resources and partnerships, Esteem can bring most cost-effective car finance solutions to customers.",
+        "Fill out our quick online application in under 2 minutes. We’ll review your details and present the most suitable options, including low interest vehicle finance and no deposit auto loans.",
     },
     {
-      question: "How Do I Choose The Right Masonry Contractor?",
+      question: "Can I get finance with bad credit?",
       answer:
-        "Esteem's subject matter experts analyze and recommend unbiased finance solution pertinent to the needs and wants of customers by providing bottom line statistics.",
+        "Yes. We work with lenders offering bad credit car loans tailored to your circumstances.",
     },
     {
-      question: "What Are Some Signs That Masonry Work Needs Repair?",
-      answer: "Esteem can provide wider vendor options to choose from.",
+      question: "What documentation is required?",
+      answer:
+        "A valid New Zealand driver’s licence, proof of income, and proof of address are generally all you need.",
     },
     {
-      question: "What Should I Do If My Toilet Is Constantly Running?",
-      answer: "Fastest turn around time for finance process.",
+      question: "How quickly will I know if I’m approved?",
+      answer:
+        "Most approvals happen within 24 hours, often the same day.",
     },
     {
-        question: "Do You Offer Eco-Friendly Or Sustainable Options For Your Services?",
-        answer: "Esteem's subject matter experts analyze and recommend unbiased finance solution pertinent to the needs and wants of customers by providing bottom line statistics.",
-    }
+      question: "Do I have to choose a specific car?",
+      answer:
+        "No. You can finance almost any pre-owned car from our trusted dealer network.",
+    },
   ];
+
   return (
     <div className="max-w-7xl m-auto p-4 lg:p-16">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         <div className="lg:col-span-2">
           <Image
-            alt=""
+            alt="FAQ's for car loan"
             src={"/assets/faqlanding.svg"}
             width={100}
             height={100}
@@ -64,9 +68,8 @@ export default function FAQLanding() {
             content.map((faq: any, index: any) => (
               <div
                 key={index}
-                className={`rounded-2xl border border-gray-300 mb-4 ${
-                  openIndex === index && "bg-[#F9F9FB]"
-                }`}
+                className={`rounded-2xl border border-gray-300 mb-4 ${openIndex === index && "bg-[#F9F9FB]"
+                  }`}
               >
                 <button
                   className={`w-full text-left p-4 rounded flex justify-between items-center  ${" text-gray-700"}`}
@@ -85,9 +88,8 @@ export default function FAQLanding() {
                   </span>
                 </button>
                 <div
-                  className={`transition-all duration-300 overflow-hidden text-[#252525] text-xs ${
-                    openIndex === index ? "max-h-40 p-6 pt-0  " : "max-h-0 p-0"
-                  }`}
+                  className={`transition-all duration-300 overflow-hidden text-[#252525] text-xs ${openIndex === index ? "max-h-40 p-6 pt-0  " : "max-h-0 p-0"
+                    }`}
                 >
                   {openIndex === index && (
                     <p className="text-base font-[fustat] text-gray-800  ">

@@ -130,23 +130,19 @@ const EmiCalculator = () => {
   };
 
   return (
-    <div className="max-w-7xl relative font-[poppins] m-auto p-4 lg:p-16">
+    <div className="max-w-7xl relative font-[poppins] m-auto p-4 lg:p-16 lg:py-0">
       <div className="w-full m-auto  text-center mb-8">
         <h2 className="text-gray-900 text-2xl font-[alexandria] font-semibold mb-2">
-          Calculate Your EMI
+          Estimate Repayments with Our Car Loan Calculator
         </h2>
         <p className="text-gray-700 font-[cabin]">
-          Unlike other providers, Esteem offers personalized service to help you
-          navigate the complexities of car financing. Our team of experts
-          provides clear advice, ensuring you feel confident in your loan
-          decisions. We focus on quick, hassle-free solutions, offering a smooth
-          path to secure your car loan with ease.
+          Use our easy-to-use car loan calculator to plan your monthly repayments. Just enter your loan amount, interest rate, and tenure to calculate your auto finance in New Zealand. Unlike other lenders, we help you understand the loan with complete clarity.
         </p>
       </div>{" "}
       <div className="grid grid-cols-1 lg:grid-cols-3">
         <div className="m-auto  text-left flex flex-col justify-center items-center lg:item-start pt-6 lg:pt-0 mb-8 lg:mb-auto">
           <Image
-            alt=""
+            alt="Calculate your car loan"
             src={"/assets/emi.svg"}
             width={100}
             height={100}

@@ -73,8 +73,7 @@ const Footer = () => {
               />
             </div>
             <p className="text-gray-300 mt-2 mb-4 text-base lg:text-sm">
-              Esteem Finance offers reliable, affordable vehicles with flexible
-              financing options.
+              Esteem Finance offers trustworthy and affordable vehicle finance solutions with a focus on flexibility and transparency. We help Kiwis secure the best options for purchasing pre-owned cars — ensuring a smooth and fast process every time.
             </p>
             <h2>Follow Us</h2>
             <div className="flex space-x-4 mt-4">

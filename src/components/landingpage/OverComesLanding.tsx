@@ -7,33 +7,38 @@ export default function OverComesLanding() {
     {
       title: "Check Eligibility",
       description:
-        "Esteem Finance is associated and linked to all the financial institutions of NZ and overseas for extensive scope making a competitive market.",
+        "Access New Zealand’s and the world’s largest lenders with competitive rates",
       image: "/assets/over1.svg",
+      alt: "Apply for car loan"
     },
     {
       title: "Select Your Car",
       description:
-        "Esteem Finance had invested in state-of-the-art cutting edge technology platform overviding one stop solution to customers.",
+        "Apply online securely with innovative technology",
       image: "/assets/over2.svg",
+      alt: "Get approval"
     },
     {
       title: "Documentation",
       description:
-        "Esteem Finance has made an investment on subject matter specialists for customer assistance.",
+        "Get expert support to find the best low interest vehicle financing",
       image: "/assets/over3.svg",
+      alt: "Low intrest rate for our car loan"
     },
     {
       title: "Get Your Car",
       description:
-        "Esteem Finance is a young organization with a customer centric DNA, meant to revolutionize car finance services on a click without obligations and laborious overcesses",
+        "Flexible options for no deposit financing and bad credit auto loans",
       image: "/assets/over4.svg",
+      alt: "Flexible options for car loan"
     },
   ];
+
   return (
-    <div className="max-w-7xl m-auto p-4 lg:p-16">
+    <div className="max-w-7xl m-auto p-4 lg:p-16 lg:pb-0 lg:pt-6">
       <div className="w-full m-auto  text-center mb-8">
         <h2 className="text-gray-900 text-2xl font-[alexandria] font-semibold mb-2">
-          How Esteem overcomes New Zealand market challenges
+          Apply for Car Finance Today
         </h2>
         <p className="text-gray-700 font-[cabin]">
           Browse through a wide range of cars that suit both your budget and
@@ -47,7 +52,7 @@ export default function OverComesLanding() {
           <div key={index} className="lg:p-4">
             <div className="flex justify-center mb-4">
               <Image
-                alt=""
+                alt={data?.alt}
                 src={data?.image || "/assets/over1.svg"}
                 width={100}
                 height={100}
@@ -56,7 +61,7 @@ export default function OverComesLanding() {
             </div>
             <div className="flex items-center gap-2">
               <Image
-                alt=""
+                alt={data?.alt}
                 src={"/assets/check.svg"}
                 width={100}
                 height={100}

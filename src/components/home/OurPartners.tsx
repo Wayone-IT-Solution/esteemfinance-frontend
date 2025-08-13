@@ -18,13 +18,12 @@ const OurPartners = () => {
 
   return (
     <section className="relative w-full overflow-hidden bg-white py-4">
-      <div className="w-full lg:w-3/5 m-auto  text-center lg:p-14 relative">
+      <div className="w-full lg:w-4/6 m-auto  text-center lg:p-14 relative">
         <h2 className="text-gray-900 text-2xl font-[alexandria] font-semibold mb-2">
-          Proudly Serving Our Partners
+          Flexible Car Loan Options across New Zealand
         </h2>
         <p className="text-gray-700 font-[cabin]">
-          A hassle free and smooth process designed to help you get the car you
-          want{" "}
+          We offer transparent and flexible vehicle financing solutions that work for everyone. Whether you're a first-time buyer or require bad credit auto funding, our team helps Kiwis access the right car financing with competitive rates and expert guidance. From low interest car loans to no deposit vehicle finance, we customise each solution to your needs.
         </p>
         <Image
           priority
@@ -32,7 +31,7 @@ const OurPartners = () => {
           alt="Wave Decoration"
           width={1920} // Adjust width accordingly
           height={300} // Adjust height accordingly
-          className="w-20 h-auto absolute hidden md:inline-block top-20 left-0 z-10"
+          className="w-20 h-auto absolute hidden md:inline-block top-20 -left-5 z-10"
         />
         <Image
           priority
@@ -40,7 +39,7 @@ const OurPartners = () => {
           alt="Wave Decoration"
           width={1920} // Adjust width accordingly
           height={300} // Adjust height accordingly
-          className="w-20 h-auto absolute hidden md:inline-block top-20 right-0 z-10"
+          className="w-20 h-auto absolute hidden md:inline-block top-20 -right-5 z-10"
         />
       </div>
       <div className="relative w-full overflow-hidden">
@@ -68,7 +67,7 @@ const OurPartners = () => {
                     src={client.logo}
                     width={300}
                     height={100}
-                    alt={`Client ${client.name}`}
+                    alt={`${client.name}`}
                     unoptimized
                     className="object-contain h-20 w-fit p-2"
                   />
