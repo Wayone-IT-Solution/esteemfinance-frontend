@@ -1,11 +1,9 @@
-// app/apply/page.tsx
-
-import LoanForm from "@/components/common/LoanForm";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 import { BiTimer } from "react-icons/bi";
-import { BsCurrencyDollar } from "react-icons/bs";
 import { FaRegClock } from "react-icons/fa";
+import { BsCurrencyDollar } from "react-icons/bs";
+import LoanForm from "@/components/common/LoanForm";
 
 // ✅ App Router metadata export
 export const metadata = {
@@ -28,7 +26,7 @@ export default function Page() {
           width={500}
           height={500}
           unoptimized
-          className="object-contain h-32 w-full object-cover"
+          className="h-32 w-full object-cover"
         />
       </div>
       <div className="max-w-7xl m-auto text-center pt-12">
