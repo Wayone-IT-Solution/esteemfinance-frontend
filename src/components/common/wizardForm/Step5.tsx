@@ -184,6 +184,7 @@ export default function Step1({
             <option value="International">International</option>
             {/* <option value="Overseas">Overseas</option> */}
           </select>
+          
           {errors.driverLicenseType && (
             <p className="text-red-500">{errors.driverLicenseType}</p>
           )}

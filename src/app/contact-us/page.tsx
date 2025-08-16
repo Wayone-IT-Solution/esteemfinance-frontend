@@ -7,14 +7,23 @@ import WeAreHere from "./components/WeAreHere";
 
 // ✅ Metadata function
 export const metadata = {
-  title: "Contact Esteem Finance – Car Loan Experts NZ",
+  title: "Contact Esteem Finance | Car Loan Help & Support",
   description:
-    "Contact Esteem Finance for all your car loan needs in NZ. Get expert advice, fast support & hassle-free car finance solutions.",
-  metadataBase: new URL("https://www.esteemfinance.co.nz/contact-us"),
+    "Get in touch with Esteem Finance for car loans, preowned car finance, or repayment queries. Our friendly NZ team is here to help with fast support.",
+  metadataBase: new URL("https://www.esteemfinance.co.nz"),
   alternates: {
     canonical: "https://www.esteemfinance.co.nz/contact-us",
   },
+  keywords: [
+    "contact Esteem Finance",
+    "car loan support NZ",
+    "apply car loan help",
+    "preowned car finance contact",
+    "vehicle finance enquiries",
+    "Esteem Finance contact",
+  ],
 };
+
 export const revalidate = 60; // ISR if needed
 
 export default function Page() {

@@ -15,14 +15,21 @@ import OverComesLanding from "@/components/landingpage/OverComesLanding";
 import WhyEsteeemLanding from "@/components/landingpage/WhyEsteeemLanding";
 
 export const metadata = {
-  title: "Car Finance NZ – Fast, Easy Loans | Esteem Finance",
+  title: "Car Finance NZ: Calculate your Car Loan | Esteem Finance",
   description:
-    "Secure your dream car with Esteem Finance. Fast approvals, flexible terms, and no deposit car finance options across New Zealand. Apply online today!",
+    "Calculate your car loan in NZ with Esteem Finance. Apply online for preowned car loans at low rates and get quick approval for your next vehicle.",
   metadataBase: new URL("https://www.esteemfinance.co.nz"),
   alternates: {
-    canonical: "https://www.esteemfinance.co.nz/",
+    canonical: "https://www.esteemfinance.co.nz/why-us",
   },
+  keywords: [
+    "car loan",
+    "car finance",
+    "calculate car loan",
+    "apply preowned car loan",
+  ],
 };
+
 const HomePage = () => {
   return (
     <div>
