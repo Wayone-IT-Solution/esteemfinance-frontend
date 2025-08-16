@@ -178,11 +178,11 @@ export default function Step1({
             className="border rounded p-3 bg-white text-gray-700 focus:ring-2 focus:ring-[#1262A1] outline-none"
           >
             <option value="">Select one option</option>
-            <option value="Learner">Learner</option>
-            {/* <option value="Restricted">Restricted</option> */}
             <option value="Full">Full</option>
+            <option value="Learner">Learner</option>
+            <option value="Overseas">Overseas</option>
+            <option value="Restricted">Restricted</option>
             <option value="International">International</option>
-            {/* <option value="Overseas">Overseas</option> */}
           </select>
           
           {errors.driverLicenseType && (
